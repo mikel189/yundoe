@@ -22,8 +22,7 @@ def connect_to_db():
 
 def read_from_db():
     payments_collection = connect_to_db()
-    payments_collection_data = payments_collection.find().sort((
-        'date', pymongo.DESCENDING))[:100]
+    payments_collection_data = payments_collection.find().sort(('date', pymongo.DESCENDING))[:100]
     payments_df = pd.DataFrame(payments_collection_data)
     return payments_df
 
@@ -32,10 +31,9 @@ def load_and_generate_clean_data(df):
     # raw_df = pd.read_csv('data/lassperr_payments.csv')
     payments_df = df.copy()
     # df = raw_df.copy()
-    df[['date', 'time']] = payments_df['date'].str.split('T', expand=True)
+    df[['date', 'time']] = payments_df['date'].str.split('T', expand = True)
     clean_df = df[['date', 'amountInGMD']]
-    clean_df = clean_df.rename(
-        columns={'date': 'ds', 'amountInGMD': 'y'}, inplace=True)
+    clean_df = clean_df.rename(columns={'date': 'ds', 'amountInGMD': 'y'}, inplace = True)
     return clean_df
 
 
@@ -46,10 +44,7 @@ def format_and_sort_date_values(df):
 
 
 def preprocess_data():
-    clean_data = load_and_generate_clean_data()
+    df = read_from_db()
+    clean_data = load_and_generate_clean_data(df)
     sanitized_df = format_and_sort_date_values(clean_data)
     return sanitized_df
-
-
-# if '__name__' == __main__:
-#     preprocess_data()

@@ -154,7 +154,7 @@ def index():
 @cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
 @requires_auth
 def insert_into_db():
-    
+    return 'hi'
 
-if __name__ == "__main__":
+if '__name__' == '__main__':
     APP.run(host="0.0.0.0", port=env.get("PORT", 3010))

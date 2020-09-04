@@ -13,7 +13,7 @@ client = MongoClient(mongo_uri)
 # collection = db['payments']
 
 
-def connect_to_db():
+def get_payments_collection():
     client = MongoClient(mongo_uri)
     db = client.lasperrlive
     payments_collection = db.payments
@@ -21,7 +21,7 @@ def connect_to_db():
 
 
 def read_from_db():
-    payments_collection = connect_to_db()
+    payments_collection = get_payments_collection()
     payments_collection_data = payments_collection.find().sort(('date', pymongo.DESCENDING))[:100]
     payments_df = pd.DataFrame(payments_collection_data)
     return payments_df
@@ -48,3 +48,7 @@ def preprocess_data():
     clean_data = load_and_generate_clean_data(df)
     sanitized_df = format_and_sort_date_values(clean_data)
     return sanitized_df
+
+
+if __name__ == '__main__':
+    preprocess_data()

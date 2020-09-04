@@ -1,7 +1,5 @@
 from pymongo import MongoClient
-
-mongo_uri = 'mongodb://localhost:27017/'
-
+from sanitize import get_payments_collection
 
 def format_predictions(df):
     json_df = df.to_json(date_format='iso')
@@ -9,7 +7,6 @@ def format_predictions(df):
 
 
 def insert_predictions_to_db(json_df):
-    client = MongoClient(mongo_uri)
-    collection = client.lasperrlive
-    post_id = collection.insert_one({json_df}).inserted_id
+    payments_collection = get_payments_collection()
+    post_id = payments_collection.insert_one({json_df}).inserted_id
     return post_id

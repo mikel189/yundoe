@@ -11,8 +11,13 @@ def get_payments_collection():
 def format_predictions():
     model_df = get_train_model()
     model_in_dict = model_df.to_dict()
-    predictions = {'predictions': model_in_dict}  
-    return predictions      
+
+    prediction_dict = {}
+    for key, val in model_in_dict.items():
+        for _, value in val.items():
+            prediction_dict[key] = value
+
+    return prediction_dict
 
 
 def insert_predictions_to_db():

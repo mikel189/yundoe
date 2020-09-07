@@ -1,6 +1,5 @@
 from pymongo import MongoClient
 from sanitize import connect_to_db
-# from sanitize import get_payments_collection
 from forecaster import get_train_model
 
 def get_payments_collection():
@@ -14,6 +13,7 @@ def format_predictions():
     model_in_dict = model_df.to_dict()
     predictions = {'predictions': model_in_dict}  
     return predictions      
+
 
 def insert_predictions_to_db():
     model_predictions = format_predictions()

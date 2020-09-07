@@ -1,5 +1,4 @@
 import pymongo
-# import numpy as np
 import pandas as pd
 from os import environ as env
 from pymongo import MongoClient

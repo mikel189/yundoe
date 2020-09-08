@@ -7,7 +7,7 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from models import predictions
+from forecaster import get_train_model
 
 from jose import jwt
 from flask_cors import cross_origin
@@ -140,7 +140,7 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
-model_predictions = predictions()
+model_predictions = get_train_model()
 
 # Controllers API
 @APP.route("/")

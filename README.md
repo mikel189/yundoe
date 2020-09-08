@@ -9,9 +9,9 @@
 ## How to use
 ```
 run
-[x] pip install -r requirements.txt
-[x] python sanitize.py
-[x] python models.py
-[x] python app.py
+- pip install -r requirements.txt
+- python sanitize.py
+- python models.py
+- python app.py
 
 ```

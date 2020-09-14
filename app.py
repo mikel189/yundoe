@@ -22,10 +22,12 @@ def format_predictions():
     prediction_dict_keys = list(prediction_dict.keys())
 
     prediction_dict['date'] = prediction_dict.pop(prediction_dict_keys[0])
+    print('time stamp', prediction_dict['date'])
     prediction_dict['upperBound'] = prediction_dict.pop(prediction_dict_keys[1])
     prediction_dict['amount'] = prediction_dict.pop(prediction_dict_keys[2])
     prediction_dict['lowerBound'] = prediction_dict.pop(prediction_dict_keys[3])
-    prediction_dict['monthIndex'] = prediction_dict['date'].astype(str).str.split('-')[1]
+    prediction_dict['monthIndex'] = prediction_dict['date'].month
+    prediction_dict['year'] = prediction_dict['date'].year
     prediction_dict['createdAt'] = datetime.datetime.now()
 
     return prediction_dict

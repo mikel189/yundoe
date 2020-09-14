@@ -6,7 +6,7 @@ def build_model():
     df = preprocess_data()
     model = Prophet(daily_seasonality=True, weekly_seasonality=True)
     model.fit(df)
-    future = model.make_future_dataframe(periods = 1, freq = 'W')
+    future = model.make_future_dataframe(periods = 30)
     forecast = model.predict(future)
     return forecast
 
@@ -14,7 +14,7 @@ def build_model():
 def predictions():
     forecast = build_model()
     forecast_df = forecast[['ds', 'yhat_upper', 'yhat', 'yhat_lower']]
-    return forecast_df.tail(1)
+    return forecast_df.tail(2)
 
 
 def get_train_model():

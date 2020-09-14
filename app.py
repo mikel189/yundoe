@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from sanitize import connect_to_db
 from forecaster import get_train_model
+import datetime
+
 
 def get_forecast_collection():
     db = connect_to_db()
@@ -23,6 +25,8 @@ def format_predictions():
     prediction_dict['upperBound'] = prediction_dict.pop(prediction_dict_keys[1])
     prediction_dict['amount'] = prediction_dict.pop(prediction_dict_keys[2])
     prediction_dict['lowerBound'] = prediction_dict.pop(prediction_dict_keys[3])
+    prediction_dict['monthIndex'] = prediction_dict['date'].astype(str).str.split('-')[1]
+    prediction_dict['createdAt'] = datetime.datetime.now()
 
     return prediction_dict
 

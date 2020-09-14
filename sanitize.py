@@ -44,10 +44,19 @@ def format_and_sort_date_values(clean_df):
     return sorted_df_dates
 
 
+def aggregate_to_weekly(sorted_df):
+    sorted_df.set_index('ds', inplace=True)
+    sorted_df.index = pd.to_datetime(sorted_df.index)
+    monthly_df = sorted_df.resample('1M').sum()
+    monthly_df.reset_index(inplace=True)
+    return monthly_df
+
+
 def preprocess_data():
     df = read_from_db()
     clean_data = load_and_generate_clean_data(df)
-    sanitized_df = format_and_sort_date_values(clean_data)
+    formatted_df = format_and_sort_date_values(clean_data)
+    sanitized_df = aggregate_to_weekly(formatted_df)
     print('sanitized payments df', sanitized_df)
     return sanitized_df
 

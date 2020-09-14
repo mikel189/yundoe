@@ -5,26 +5,13 @@ from sanitize import preprocess_data
 def build_model():
     df = preprocess_data()
     model = Prophet(
-        growth='linear',
+        growth='linear', 
+        seasonality_mode = 'multiplicative', 
+        weekly_seasonality=True, 
         daily_seasonality=True,
-        weekly_seasonality=False,
-        yearly_seasonality=True,
-        # seasonality_mode='multiplicative',
-    ).add_seasonality(
-        name = 'monthly',
-        period = 30.5,
-        fourier_order = 55
-    ).add_seasonality(
-        name = 'weekly', 
-        period = 7,
-        fourier_order = 20
-    ).add_seasonality(
-        name = 'daily',
-        period = 1,
-        fourier_order = 15
     )
     model.fit(df)
-    future = model.make_future_dataframe(periods = 3, freq = 'D')
+    future = model.make_future_dataframe(periods = 1, freq='M')
     forecast = model.predict(future)
     return forecast
 
@@ -32,7 +19,7 @@ def build_model():
 def predictions():
     forecast = build_model()
     forecast_df = forecast[['ds', 'yhat_upper', 'yhat', 'yhat_lower']]
-    return forecast_df.tail(5)
+    return forecast_df.tail(1)
 
 
 def get_train_model():

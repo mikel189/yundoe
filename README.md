@@ -30,7 +30,6 @@
 ```
 run
 - pip install -r requirements.txt
-- python app.py
-- python server.py
+- python manage.py runserver
 
 ```

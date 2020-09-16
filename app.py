@@ -3,6 +3,8 @@ from sanitize import connect_to_db
 from forecaster import get_train_model
 from datetime import datetime
 
+from models import Prediction
+from server import db
 
 def get_forecast_collection():
     db = connect_to_db()
@@ -33,12 +35,35 @@ def format_predictions():
     return prediction_dict
 
 
+
 def insert_predictions_to_db():
-    prediction_dict = format_predictions()
-    print('model in dict', prediction_dict)
-    payments_collection = get_forecast_collection()
-    post_id = payments_collection.insert_one(prediction_dict).inserted_id
-    print(post_id)
+    model_output_dict = format_predictions()
+    print('model in dict', model_output_dict)
+    
+    for item in model_output_dict:
+        try:
+            prediction = Prediction(
+                date=item['date'],
+                year=item['year'], 
+                upper_bound=item['upper_bond'],
+                lower_bound=item['lower_bound'],
+                amount=item['amount'],
+                month_index=item['month_index'],
+                estate_id=item['estate_id'])
+            
+            db.session.add(prediction)
+            db.session.commit()
+            print(f'insertion id: {prediction.id}')
+        except Exception as e:
+            return(str(e))
+
+
+# def insert_predictions_to_db():
+#     prediction_dict = format_predictions()
+#     print('model in dict', prediction_dict)
+#     payments_collection = get_forecast_collection()
+#     post_id = payments_collection.insert_one(prediction_dict).inserted_id
+#     print(post_id)
 
 
 if __name__ == '__main__':

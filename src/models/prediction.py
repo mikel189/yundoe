@@ -1,5 +1,5 @@
-from  import db
-# from sqlalchemy_utils import PhoneNumber
+from src.server import app, db
+# from sqsrclalchemy_utils import PhoneNumber
 
 class Prediction(db.Model):
     __tablename__ = 'predictions'

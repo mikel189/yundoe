@@ -3,8 +3,8 @@ from sanitize import connect_to_db
 from forecaster import get_train_model
 from datetime import datetime
 
-from models import Prediction
-from server import db
+from Yundoo.src.models.prediction import Prediction
+from Yundoo.src.server import db
 
 def get_forecast_collection():
     db = connect_to_db()
@@ -49,7 +49,8 @@ def insert_predictions_to_db():
                 lower_bound=item['lower_bound'],
                 amount=item['amount'],
                 month_index=item['month_index'],
-                estate_id=item['estate_id'])
+                estate_id=item['estate_id'],
+                created_at=item['created_at'])
             
             db.session.add(prediction)
             db.session.commit()

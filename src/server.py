@@ -1,15 +1,16 @@
-"""Python Flask API Auth0 integration example
-"""
-
-from functools import wraps
+import os
 import json
+from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
+from jose import jwt
+from flask_cors import cross_origin
+from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
-from flask_cors import cross_origin
-from jose import jwt
+
+from src.models.prediction import Prediction
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -17,8 +18,11 @@ if ENV_FILE:
 AUTH0_DOMAIN = env.get("AUTH0_DOMAIN")
 API_IDENTIFIER = env.get("API_IDENTIFIER")
 ALGORITHMS = ["RS256"]
-APP = Flask(__name__)
+app = Flask(__name__)
 
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 # Format error response and append status code.
 class AuthError(Exception):
@@ -27,7 +31,7 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
-@APP.errorhandler(AuthError)
+@app.errorhandler(AuthError)
 def handle_auth_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
@@ -40,7 +44,7 @@ class UserInputError(Exception):
         self.status_code = status_code
 
 
-@APP.errorhandler(AuthError)
+@app.errorhandler(AuthError)
 def handle_user_input_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
@@ -52,10 +56,9 @@ def get_token_auth_header():
     """
     auth = request.headers.get("Authorization", None)
     if not auth:
-        raise AuthError({
-            "code": "authorization_header_missing",
-            "description": "Authorization header is expected"
-        }, 401)
+        raise AuthError({"code": "authorization_header_missing",
+                        "description":
+                            "Authorization header is expected"}, 401)
 
     parts = auth.split()
 
@@ -153,7 +156,7 @@ def requires_auth(f):
 
 
 # Controllers API
-@APP.route("/api/public")
+@app.route("/api/public")
 @cross_origin(headers=["Content-Type", "Authorization"])
 def public():
     """No access token required to access this route
@@ -162,47 +165,37 @@ def public():
     return jsonify(message=response)
 
 
-@APP.route("/predictions", methods=['POST'])
+@app.route("/api/private")
 @cross_origin(headers=["Content-Type", "Authorization"])
 @cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
 @requires_auth
 def private():
-    if request.method == 'POST':
-        request_data = request.get_json()  
-        estate_id = request_data['estate_id']
-        year = request_data['year']
-        
-        if not year or not year.isdigit() or year < 0:
-            raise UserInputError({
-                "code": "user_input_error",
-                "description": "Invalid year value"
-            }, 401)
-
-        if not estate_id or type(estate_id) == str:
-            raise UserInputError({
-                "code": "user_input_error",
-                "description": "Invalid estate ID"
-            }, 401)
-
-        response = get_predictions_by_year(estate_id, year)
-        return jsonify(message=response)
-
-
-@APP.route("/api/private-scoped")
-@cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
-@requires_auth
-def private_scoped():
-    """A valid access token and an appropriate scope are required to access this route
+    """A valid access token is required to access this route
     """
-    if requires_scope("read:messages"):
-        response = "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
-        return jsonify(message=response)
-    raise AuthError({
-        "code": "Unauthorized",
-        "description": "You don't have access to this resource"
-    }, 403)
+
+    if request.method == 'POST':
+        request_data = request.get_json()
+        year = request_data['year']
+        estate_id = request_data['estate_id']
+
+        if not year or year != int or year < 0:
+            raise UserInputError({
+            'code': 'incorrect_input',
+            'description': 'the user input is incorrect'
+        }, 401)
+
+        if not estate_id or estate_id != str:
+            raise UserInputError({
+            'code': 'incorrect_user_input',
+            'description': 'the user input is incorrect'
+        }, 401)
+
+        # predictions = get_predictions(year, estate_id)
+        # return jsonify(predictions)
+
+    # response = "Hello from a private endpoint! You need to be authenticated to see this."
+    # return jsonify(message=response)
 
 
 if __name__ == "__main__":
-    APP.run(host="0.0.0.0", port=env.get("PORT", 3010))
+    app.run(host="0.0.0.0", port=env.get("PORT", 3010))

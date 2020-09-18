@@ -1,8 +1,13 @@
+# from api import app
+
+# if __name__ == "__main__":
+#     app.run()
+
 import os
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-# /home/ibrahim/assutech/Yundoo/src/server.py
-from src.server import app, db
+
+from api import app, db
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 

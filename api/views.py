@@ -169,22 +169,22 @@ def private():
     """A valid access token is required to access this route
     """
     if request.method == 'POST':
-        response = 'right place!'
-        return jsonify(message = response)
-        # request_data = request.get_json()
-        # year = request_data['year']
-        # estate_id = request_data['estate_id']
 
-        # if not year or year != int or year < 0:
-        #     raise UserInputError({
-        #     'code': 'incorrect_input',
-        #     'description': 'the user input is incorrect'
-        # }, 401)
+        request_data = request.get_json(force=True)
 
-        # if not estate_id or estate_id != str:
-        #     raise UserInputError({
-        #     'code': 'incorrect_user_input',
-        #     'description': 'the user input is incorrect'
-        # }, 401)
+        year = request_data['year']
+        estate_id = request_data['estate_id']
 
+        if not year or not isinstance(year, int) or year < 0:
+            raise UserInputError({
+            'code': 'incorrect_input',
+            'description': 'the user input year is incorrect'
+        }, 401)
 
+        if not estate_id or not isinstance(estate_id, str):
+            raise UserInputError({
+            'code': 'incorrect_user_input',
+            'description': 'the user input of estate id is incorrect'
+        }, 401)
+
+        return jsonify(year, estate_id)

@@ -4,7 +4,7 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api import app
+from api.app import app
 
 from jose import jwt
 from flask_cors import cross_origin
@@ -161,7 +161,7 @@ def public():
     return jsonify(message=response)
 
 
-@app.route("/api/prediction", methods=['POST', 'GET'])
+@app.route("/api/prediction", methods=['POST'])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
 @requires_auth

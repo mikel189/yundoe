@@ -1,5 +1,6 @@
-from api import app, db
-# from sqsrclalchemy_utils import PhoneNumber
+from flask_sqlalchemy import SQLAlchemy
+from api.app import app, db
+
 
 class Prediction(db.Model):
     __tablename__ = 'predictions'
@@ -27,13 +28,13 @@ class Prediction(db.Model):
         return '<Date: {}, Upper Bound: {}, Amount: {}, Lower Bound: {}, Month Index: {}, Estate Id: {}, Year: {}>'\
             .format(self.Date, self.upper_bound, self.amount, self.lower_bound, self.month_index, self.estate_id, self.year)
 
-    def serialize(self):
-        return {
-            'Date': self.Date, 
-            'upper_bound': self.upper_bound,
-            'amount': self.amount,
-            'lower_bound':self.lower_bound,
-            'month_index':self.month_index,
-            'year': self.year,
-            'estate_id': self.estate_id,
-        }
+    # def serialize(self):
+    #     return {
+    #         'Date': self.Date, 
+    #         'upper_bound': self.upper_bound,
+    #         'amount': self.amount,
+    #         'lower_bound':self.lower_bound,
+    #         'month_index':self.month_index,
+    #         'year': self.year,
+    #         'estate_id': self.estate_id,
+    #     }

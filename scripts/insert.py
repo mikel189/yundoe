@@ -3,8 +3,8 @@ from sanitize import connect_to_db
 from forecaster import get_train_model
 from datetime import datetime
 
-from api import db, app
-from models.prediction import Prediction
+from api.app import app, db
+from api.models import Prediction
 
 
 def get_forecast_collection():
@@ -56,7 +56,7 @@ def insert_predictions_to_db():
             
             db.session.add(prediction)
             db.session.commit()
-            print(f'insertion id: {prediction.id}')
+            print('insertion id: {}'.format(prediction.id))
         except Exception as e:
             return(str(e))
 

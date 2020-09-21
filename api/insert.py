@@ -51,7 +51,8 @@ def insert_predictions_to_db():
                 amount=item['amount'],
                 month_index=item['month_index'],
                 estate_id=item['estate_id'],
-                created_at=item['created_at'])
+                created_at=item['created_at']
+            )
             
             db.session.add(prediction)
             db.session.commit()

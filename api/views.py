@@ -161,29 +161,30 @@ def public():
     return jsonify(message=response)
 
 
-@app.route("/api/private")
+@app.route("/api/private", methods=['POST', 'GET'])
 @cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
+@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
 @requires_auth
 def private():
     """A valid access token is required to access this route
     """
-
     if request.method == 'POST':
-        request_data = request.get_json()
-        year = request_data['year']
-        estate_id = request_data['estate_id']
+        response = 'right place!'
+        return jsonify(message = response)
+        # request_data = request.get_json()
+        # year = request_data['year']
+        # estate_id = request_data['estate_id']
 
-        if not year or year != int or year < 0:
-            raise UserInputError({
-            'code': 'incorrect_input',
-            'description': 'the user input is incorrect'
-        }, 401)
+        # if not year or year != int or year < 0:
+        #     raise UserInputError({
+        #     'code': 'incorrect_input',
+        #     'description': 'the user input is incorrect'
+        # }, 401)
 
-        if not estate_id or estate_id != str:
-            raise UserInputError({
-            'code': 'incorrect_user_input',
-            'description': 'the user input is incorrect'
-        }, 401)
+        # if not estate_id or estate_id != str:
+        #     raise UserInputError({
+        #     'code': 'incorrect_user_input',
+        #     'description': 'the user input is incorrect'
+        # }, 401)
 
 

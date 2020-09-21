@@ -9,4 +9,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from api import views
-from api.models.prediction import Prediction
+# from api.models.prediction import Prediction

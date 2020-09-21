@@ -1,4 +1,4 @@
-from api import db
+from api import app, db
 # from sqsrclalchemy_utils import PhoneNumber
 
 class Prediction(db.Model):

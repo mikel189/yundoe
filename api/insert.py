@@ -3,8 +3,8 @@ from sanitize import connect_to_db
 from forecaster import get_train_model
 from datetime import datetime
 
-# from api import db, app
-from api import Prediction
+from api import db, app
+from models.prediction import Prediction
 
 
 def get_forecast_collection():

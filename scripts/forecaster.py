@@ -1,5 +1,9 @@
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
+
 from fbprophet import Prophet
 from sanitize import preprocess_data
+from api.models import RawForecastData
 
 
 def build_model():
@@ -16,14 +20,14 @@ def build_model():
     return forecast
 
 
-def predictions():
+def get_forecast_df():
     forecast = build_model()
     forecast_df = forecast[['ds', 'yhat_upper', 'yhat', 'yhat_lower']]
     return forecast_df.tail(1)
 
 
 def get_train_model():
-    prediction_df = predictions()
+    prediction_df = get_forecast_df()
     print(prediction_df)
     return prediction_df
 

@@ -1,9 +1,12 @@
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
+
 from pymongo import MongoClient
 from sanitize import connect_to_db
 from forecaster import get_train_model
 from datetime import datetime
 
-from api.app import app, db
+from api.app import db
 from api.models import Prediction
 
 
@@ -52,10 +55,10 @@ def insert_predictions_to_db():
                 month_index=item['month_index'],
                 estate_id=item['estate_id'],
                 created_at=item['created_at']
-            )
+            ).save()
             
-            db.session.add(prediction)
-            db.session.commit()
+            # db.session.add(prediction)
+            # db.session.commit()
             print('insertion id: {}'.format(prediction.id))
         except Exception as e:
             return(str(e))

@@ -1,40 +1,30 @@
-from flask_sqlalchemy import SQLAlchemy
-from api.app import app, db
+# import mongoengine as me
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
+
+from flask_mongoengine import *
+from api.app import db
+
+class Prediction(db.Document):
+    __tablename__ = 'test'
+    year = db.IntField(required=True)
+    amount = db.FloatField(required=True)
+    upper_bound = db.FloatField(required=True)
+    lower_bound = db.FloatField(required=True)
+    month_index = db.IntField(required=True)
+    estate_id = db.StringField(required=True)
+    date = db.DateTimeField(required=True)
+    created_at = db.DateTimeField(required=True)
+
+    meta = {
+        'ordering': ['-date']
+    }
 
 
-class Prediction(db.Model):
-    __tablename__ = 'predictions'
+    def __str__(self):
+        return f'amount: {self.amount}'
 
-    id = db.Column(db.Integer, primary_key=True)
-    upper_bound = db.Column(db.Integer, nullable=False)
-    lower_bound = db.Column(db.Integer, nullable=False)
-    amount = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-    month_index = db.Column(db.Integer, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    estate_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, date, upper_bound, amount, lower_bound, created_at, month_index, estate_id, year):
-        self.date = date
-        self.upper_bound = upper_bound
-        self.amount = amount
-        self.lower_bound = lower_bound
-        self.created_at = created_at
-        self.month_index = month_index
-        self.estate_id = estate_id
-        self.year = year
-
-    def __repr__(self):
-        return '<Date: {}, Upper Bound: {}, Amount: {}, Lower Bound: {}, Month Index: {}, Estate Id: {}, Year: {}>'\
-            .format(self.Date, self.upper_bound, self.amount, self.lower_bound, self.month_index, self.estate_id, self.year)
-
-    # def serialize(self):
-    #     return {
-    #         'Date': self.Date, 
-    #         'upper_bound': self.upper_bound,
-    #         'amount': self.amount,
-    #         'lower_bound':self.lower_bound,
-    #         'month_index':self.month_index,
-    #         'year': self.year,
-    #         'estate_id': self.estate_id,
-    #     }
+class RawForecastData(db.Document):
+    date = db.DateTimeField(required=True)
+    amount = db.DateTimeField(required=True)

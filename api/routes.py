@@ -1,10 +1,13 @@
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
+
 import os
 import json
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api.app import app
+from api.app import app, db
 
 from jose import jwt
 from flask_cors import cross_origin
@@ -161,7 +164,7 @@ def public():
     return jsonify(message=response)
 
 
-@app.route("/api/prediction", methods=['POST'])
+@app.route("/api/prediction", methods=['GET', 'POST'])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
 @requires_auth

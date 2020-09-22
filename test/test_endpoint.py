@@ -22,17 +22,15 @@ def access_api():
     token_dict = json.loads(get_access_token())
     access_token = token_dict['access_token']
 
-    url = "http://127.0.0.1:5000/api/prediction"
+    url = "http://127.0.0.1:5000/api/prediction/"
 
-    headers = { 'authorization': f"Bearer {access_token}" }
+    headers = { 'authorization': "Bearer " + access_token }
     body = '{"estate_id": "1234325", "year": 1994}'
     print('this is headers', headers)
 
     response = requests.post(url, data=body, headers = headers)
 
     print(response.text)
-
-
 
 if __name__ == '__main__':
     # get_token()

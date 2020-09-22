@@ -1,8 +1,12 @@
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
+
 import pymongo
 import pandas as pd
 from os import environ as env
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
+from api.models import RawForecastData
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -52,11 +56,20 @@ def aggregate_to_weekly(sorted_df):
     return monthly_df
 
 
+def save_clean_data(forecast_df):
+    clean_forecast_df = forecast_df
+    year = clean_forecast_df['ds']
+    amount = clean_forecast_df['y']
+    inserted_data = RawForecastData(year = year, amount = amount).save()
+    print('raw forecast df successfully inserted', inserted_data)
+
+
 def preprocess_data():
     df = read_from_db()
     clean_data = load_and_generate_clean_data(df)
     formatted_df = format_and_sort_date_values(clean_data)
     sanitized_df = aggregate_to_weekly(formatted_df)
+    save_clean_data(sanitized_df)
     print('sanitized payments df', sanitized_df)
     return sanitized_df
 

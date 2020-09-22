@@ -6,8 +6,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = '\xcd\xc3k>M\x9f\xdb\xfezr\x94C\xd39B^\x82\xa8\xc5\x12]\xaf\x1b$'
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    MONGODB_DATABASE_URI = os.environ.get('MONGO_URI')
 
 
 class ProductionConfig(Config):

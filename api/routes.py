@@ -7,7 +7,8 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api.app import app, db
+from api.process_request import 
+
 
 from jose import jwt
 from flask_cors import cross_origin

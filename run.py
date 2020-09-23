@@ -1,15 +1,20 @@
-# import os
-# from flask_script import Manager
-# from flask_migrate import Migrate, MigrateCommand
+import os
+import sys
+sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
-# from api.app import app, db
+from flask import Flask
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 
-# app.config.from_object(os.environ['APP_SETTINGS'])
+app = Flask(__name__)
 
-# migrate = Migrate(app, db)
-# manager = Manager(app)
+app.config.from_pyfile('config.py')
+db = MongoEngine(app)
 
-# manager.add_command('db', MigrateCommand)
+app.session_interface = MongoEngineSessionInterface(app)
 
-# if __name__ == '__main__':
-#     manager.run()
+from api import routes
+from scripts import insert
+
+if __name__ == '__main__':
+    app.run()

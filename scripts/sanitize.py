@@ -6,7 +6,7 @@ import pandas as pd
 from os import environ as env
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
-from api.models import RawForecastData
+# from api.models import RawForecastData
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -20,16 +20,27 @@ def connect_to_db():
     db = client.lasperrlive
     return db
 
+
+def get_estates():
+    db = connect_to_db()
+    estates_collection = db.estates
+    estates = estates_collection.find({})
+    return estates
+
+
 def get_payments_collection():
     db = connect_to_db()
     payments_collection = db.payments
-    return payments_collection
+    estates = get_estates()
+    
+    for estate in estates:
+        payments_per_estate = payments_collection.find({'estateId': estate['_id']})
+        return payments_per_estate
 
 
-def read_from_db():
+def create_payments_df():
     payments_collection = get_payments_collection()
-    payments_collection_data = payments_collection.find({}).sort(('date'))
-    payments_df = pd.DataFrame(payments_collection_data)
+    payments_df = pd.DataFrame(payments_collection)
     return payments_df
 
 
@@ -65,11 +76,11 @@ def save_clean_data(forecast_df):
 
 
 def preprocess_data():
-    df = read_from_db()
+    df = create_payments_df()
     clean_data = load_and_generate_clean_data(df)
     formatted_df = format_and_sort_date_values(clean_data)
     sanitized_df = aggregate_to_weekly(formatted_df)
-    save_clean_data(sanitized_df)
+    # save_clean_data(sanitized_df)
     print('sanitized payments df', sanitized_df)
     return sanitized_df
 

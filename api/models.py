@@ -2,11 +2,12 @@
 import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
-from flask_mongoengine import *
-from api.app import db
+from mongoengine import *
+from datetime import datetime
+from app import db
+
 
 class Prediction(db.Document):
-    __tablename__ = 'test'
     year = db.IntField(required=True)
     amount = db.FloatField(required=True)
     upper_bound = db.FloatField(required=True)
@@ -21,10 +22,28 @@ class Prediction(db.Document):
     }
 
 
-    def __str__(self):
-        return f'amount: {self.amount}'
+    def to_json(self):
+        prediction_dict = {
+            'year': year,
+            'amount': amount,
+            'upper_bound': upper_bound,
+            'lower_bound': lower_bound,
+            'month_index': month_index,
+            'estate_id': estate_id,
+            'date': date,
+            'created_at': created_at,
+        }
+        return prediction_dict
 
 
 class RawForecastData(db.Document):
     date = db.DateTimeField(required=True)
-    amount = db.DateTimeField(required=True)
+    amount = db.FloatField(required=True)
+
+    def to_json(self):
+        raw_forecast_data_dict = {
+            'date': date,
+            'amount': amount,
+        }
+        return raw_forecast_data_dict
+

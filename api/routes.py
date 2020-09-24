@@ -7,14 +7,15 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api.process_request import 
-
+from api.process_request import fetch_forecast_data
+from app import app
 
 from jose import jwt
 from flask_cors import cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
+
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:

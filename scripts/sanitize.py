@@ -67,20 +67,25 @@ def aggregate_to_weekly(sorted_df):
     return monthly_df
 
 
-def save_clean_data(forecast_df):
-    clean_forecast_df = forecast_df
-    date = clean_forecast_df['ds']
-    amount = clean_forecast_df['y']
-    inserted_data = RawForecastData(date = date, amount = amount).save()
-    print('raw forecast df successfully inserted', inserted_data)
+def save_raw_payment_data(forecast_df):
+    raw_forecast_df = forecast_df
+    payment_date = raw_forecast_df['date'].astype(str).str.split(' ', expand=True)[0]
+    lasperr_id = raw_forecast_df['_id']
+    # payment_amount = clean_forecast_df['y']
+    for id, date in zip(payment_date, lasperr_id):
+        inserted_data = RawForecastData(date = payment_date, lasperr_id=str(lasperr_id)).save()
+        print('raw forecast df successfully inserted', inserted_data)
 
+
+def process_and_save_raw_data():
+    df = create_payments_df()
+    save_raw_payment_data()
 
 def preprocess_data():
     df = create_payments_df()
     clean_data = load_and_generate_clean_data(df)
     formatted_df = format_and_sort_date_values(clean_data)
     sanitized_df = aggregate_to_weekly(formatted_df)
-    save_clean_data(sanitized_df)
     print('sanitized payments df', sanitized_df)
     return sanitized_df
 
@@ -88,3 +93,5 @@ def preprocess_data():
 if __name__ == '__main__':
     print('preprocessing data......')
     preprocess_data()
+    print('saving raw data to db')
+    save_raw_payment_data()

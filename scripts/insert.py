@@ -2,12 +2,10 @@ import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
 from pymongo import MongoClient
-from scripts.sanitize import connect_to_db
+from api.models import Prediction
+from scripts.sanitize import connect_to_db, get_estates
 from scripts.forecaster import get_train_model
 from datetime import datetime
-
-from  import Prediction
-from scripts.sanitize import get_estates
 
 
 def get_forecast_collection():

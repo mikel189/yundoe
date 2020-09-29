@@ -37,13 +37,12 @@ class Prediction(db.Document):
 
 
 class RawForecastData(db.Document):
-    date = db.DateTimeField(required=True)
-    amount = db.FloatField(required=True)
+    date = db.DateField(required=True)
+    lasperr_id = db.StringField(required=True)
 
     def to_json(self):
         raw_forecast_data_dict = {
-            'date': date,
-            'amount': amount,
+            'lasperr_id': lasperr_id
         }
         return raw_forecast_data_dict
 

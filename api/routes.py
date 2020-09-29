@@ -7,7 +7,7 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api.process_request import fetch_forecast_data
+from scripts.process_request import fetch_forecast_data
 from app import app
 
 from jose import jwt

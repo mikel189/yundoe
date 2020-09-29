@@ -1,11 +1,12 @@
 import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
-from pymongo import MongoClient
+import json
+from datetime import datetime
+
 from api.models import Prediction
 from scripts.sanitize import connect_to_db, get_estates
 from scripts.forecaster import get_train_model
-from datetime import datetime
 
 
 def get_forecast_collection():
@@ -26,7 +27,6 @@ def format_predictions():
     prediction_dict_keys = list(prediction_dict.keys())
 
     prediction_dict['date'] = prediction_dict.pop(prediction_dict_keys[0])
-    print('time stamp', prediction_dict['date'])
     prediction_dict['upper_bound'] = prediction_dict.pop(prediction_dict_keys[1])
     prediction_dict['amount'] = prediction_dict.pop(prediction_dict_keys[2])
     prediction_dict['lower_bound'] = prediction_dict.pop(prediction_dict_keys[3])
@@ -40,29 +40,29 @@ def format_predictions():
 
 def insert_predictions_to_db():
     model_output_dict = format_predictions()
+    print('type of model output dict is ', type(model_output_dict))
     print('model in dict', model_output_dict)
     
     estates = get_estates()
+
     for estate in estates:
         estate_id = estate['_id']
 
-    for item in model_output_dict:
-        try:
-            prediction = Prediction(
-                date=item['date'],
-                year=item['year'], 
-                upper_bound=item['upper_bond'],
-                lower_bound=item['lower_bound'],
-                amount=item['amount'],
-                month_index=item['month_index'],
-                estate_id=estate_id,
-                created_at=item['created_at']
-            ).save()
-            
-
-            print('insertion id: {}'.format(prediction.id))
-        except Exception as e:
-            return(str(e))
+    try:
+        prediction = Prediction(
+            year=model_output_dict['year'], 
+            date=model_output_dict['date'],
+            upper_bound=model_output_dict['upper_bond'],
+            amount=model_output_dict['amount'],
+            lower_bound=model_output_dict['lower_bound'],
+            month_index=model_output_dict['month_index'],
+            estate_id=estate_id,
+            created_at=model_output_dict['created_at'],
+        ).save()
+        
+        print('insertion id: {}'.format(prediction))
+    except Exception as e:
+        return(str(e))
 
 
 if __name__ == '__main__':

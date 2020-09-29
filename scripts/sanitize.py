@@ -2,10 +2,12 @@ import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
 import pymongo
+from datetime import datetime
 import pandas as pd
 from os import environ as env
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
+
 from api.models import RawForecastData
 
 ENV_FILE = find_dotenv()
@@ -69,17 +71,18 @@ def aggregate_to_weekly(sorted_df):
 
 def save_raw_payment_data(forecast_df):
     raw_forecast_df = forecast_df
-    payment_date = raw_forecast_df['date'].astype(str).str.split(' ', expand=True)[0]
+    # payment_date = raw_forecast_df['date'].astype(str).str.split(' ', expand=True)[0]
     lasperr_id = raw_forecast_df['_id']
-    # payment_amount = clean_forecast_df['y']
-    for id, date in zip(payment_date, lasperr_id):
-        inserted_data = RawForecastData(date = payment_date, lasperr_id=str(lasperr_id)).save()
-        print('raw forecast df successfully inserted', inserted_data)
+    try:
+        inserted_data = RawForecastData(date = datetime.now(), lasperr_id=str(lasperr_id)).save()
+        print('lasperr payment id successfully inserted', inserted_data.lasperr_id)
+    except Exception as e:
+        print(str(e))
 
 
 def process_and_save_raw_data():
     df = create_payments_df()
-    save_raw_payment_data()
+    save_raw_payment_data(df)
 
 def preprocess_data():
     df = create_payments_df()
@@ -94,4 +97,4 @@ if __name__ == '__main__':
     print('preprocessing data......')
     preprocess_data()
     print('saving raw data to db')
-    save_raw_payment_data()
+    process_and_save_raw_data()

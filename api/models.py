@@ -24,14 +24,14 @@ class Prediction(db.Document):
 
     def to_json(self):
         prediction_dict = {
-            'year': year,
-            'amount': amount,
-            'upper_bound': upper_bound,
-            'lower_bound': lower_bound,
-            'month_index': month_index,
-            'estate_id': estate_id,
-            'date': date,
-            'created_at': created_at,
+            'year': self.year,
+            'amount': self.amount,
+            'upper_bound': self.upper_bound,
+            'lower_bound': self.lower_bound,
+            'month_index': self.month_index,
+            'estate_id': self.estate_id,
+            'date': self.date,
+            'created_at': self.created_at,
         }
         return prediction_dict
 
@@ -42,7 +42,18 @@ class RawForecastData(db.Document):
 
     def to_json(self):
         raw_forecast_data_dict = {
-            'lasperr_id': lasperr_id
+            'lasperr_id': self.lasperr_id
         }
         return raw_forecast_data_dict
 
+
+# prediction = Prediction(
+#                 date=datetime.now(),
+#                 year=2020, 
+#                 upper_bound=20202.2,
+#                 lower_bound=20203.1,
+#                 amount=2020202.32,
+#                 month_index=9,
+#                 estate_id='sdheiageh3',
+#                 created_at=datetime.now(),
+#             ).save()

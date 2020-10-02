@@ -28,7 +28,7 @@ def get_forecast_df():
 
 def get_train_model():
     prediction_df = get_forecast_df()
-    print(prediction_df)
+    print('this is prediction df', prediction_df)
     return prediction_df
 
 

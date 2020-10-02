@@ -1,1 +1,1 @@
-from api.models import Prediction
+# from api.models import Prediction

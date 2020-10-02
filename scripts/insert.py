@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 from api.models import Prediction
-from scripts.sanitize import connect_to_db, get_estates
+from scripts.sanitize import connect_to_db, get_estates, process_and_save_raw_data
 from scripts.forecaster import get_train_model
 
 
@@ -65,4 +65,5 @@ def insert_predictions_to_db():
 
 
 if __name__ == '__main__':
+    process_and_save_raw_data()
     insert_predictions_to_db()

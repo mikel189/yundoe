@@ -1,3 +1,2 @@
 import sys
-
-sys.path.append(".")
+sys.path.append("/home/ibrahim/assutech/Yundoo/")

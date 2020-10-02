@@ -37,12 +37,11 @@ def format_predictions():
     return prediction_dict
 
 
-
 def insert_predictions_to_db():
     model_output_dict = format_predictions()
     print('type of model output dict is ', type(model_output_dict))
     print('model in dict', model_output_dict)
-    
+
     estates = get_estates()
 
     for estate in estates:
@@ -59,7 +58,7 @@ def insert_predictions_to_db():
             estate_id=estate_id,
             created_at=model_output_dict['created_at'],
         ).save()
-        
+
         print('insertion id: {}'.format(prediction))
     except Exception as e:
         return(str(e))

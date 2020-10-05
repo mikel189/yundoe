@@ -14,8 +14,8 @@ class Prediction(db.Document):
     lower_bound = db.FloatField(required=True)
     month_index = db.IntField(required=True)
     estate_id = db.StringField(required=True)
-    date = db.DateTimeField(required=True)
-    created_at = db.DateTimeField(required=True)
+    date = db.DateField(required=True)
+    created_at = db.DateField(required=True)
 
     meta = {
         'ordering': ['-date']

@@ -45,12 +45,11 @@ def insert_predictions_to_db():
     estates = get_estates()
     estate_id = [estate['_id'] for estate in estates]
 
-    # try:
     print('before insertion')
     prediction = Prediction(year=model_output_dict['year'], amount=model_output_dict['amount'], \
-        upper_bound=model_output_dict['upper_bound'], lower_bound=model_output_dict['lower_bound'], \
-        month_index=model_output_dict['month_index'], estate_id=str(estate_id), date=model_output_dict['date'],\
-        created_at=datetime.now()).save()
+        upperBound=model_output_dict['upper_bound'], lowerBound=model_output_dict['lower_bound'], \
+        monthIndex=model_output_dict['month_index'], estateId=str(estate_id[0]), date=model_output_dict['date'],\
+        createdAt=datetime.now()).save()
         
     print('after prediction insertion')
     print('insertion id: {}'.format(prediction))

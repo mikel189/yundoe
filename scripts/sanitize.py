@@ -75,7 +75,7 @@ def save_raw_payment_data(forecast_df):
     lasperr_id = raw_forecast_df['_id']
     try:
         inserted_data = RawForecastData(date = datetime.now(), lasperr_id=str(lasperr_id)).save()
-        print('lasperr payment id successfully inserted', inserted_data.lasperr_id)
+        # print('lasperr payment id successfully inserted', inserted_data.lasperr_id)
     except Exception as e:
         print(str(e))
 

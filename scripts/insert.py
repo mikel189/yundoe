@@ -48,16 +48,9 @@ def insert_predictions_to_db():
         estate_id = estate['_id']
 
     try:
-        prediction = Prediction(
-            year=model_output_dict['year'], 
-            date=model_output_dict['date'],
-            upper_bound=model_output_dict['upper_bond'],
-            amount=model_output_dict['amount'],
-            lower_bound=model_output_dict['lower_bound'],
-            month_index=model_output_dict['month_index'],
-            estate_id=estate_id,
-            created_at=model_output_dict['created_at'],
-        ).save()
+        prediction = Prediction(year=model_output_dict['year'], date=model_output_dict['date'], upper_bound=model_output_dict['upper_bond'], \
+            amount=model_output_dict['amount'], lower_bound=model_output_dict['lower_bound'], month_index=model_output_dict['month_index'], \
+            estate_id=estate_id, created_at=model_output_dict['created_at']).save()
 
         print('insertion id: {}'.format(prediction))
     except Exception as e:

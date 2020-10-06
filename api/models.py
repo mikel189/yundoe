@@ -13,7 +13,7 @@ class Prediction(db.Document):
     upperBound = db.FloatField(required=True)
     lowerBound = db.FloatField(required=True)
     monthIndex = db.IntField(required=True)
-    estateId = db.StringField(required=True)
+    estateId = db.ObjectIdField(required=True)
     date = db.DateTimeField(required=True)
     createdAt = db.DateTimeField(required=True)
 

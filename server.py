@@ -6,8 +6,9 @@ import json
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
+import config
 
-from scripts.process_request import fetch_forecast_data
+from api.process_request import fetch_forecast_data
 
 from jose import jwt
 from waitress import serve
@@ -23,7 +24,6 @@ CORS(app)
 app.config['MONGO_DB'] = 'forecast-db'
 app.config['MONGODB_HOST'] = 'mongodb://127.0.0.1:27017/'
 app.config['MONGODB_CONNECT'] = False
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 db = MongoEngine(app)
 
@@ -217,6 +217,5 @@ def private():
 
 
 if __name__ == '__main__':
-    # app.debug = True
-    app.run(debug=True)
-    # serve(app, host='0.0.0.0', port=os.environ.get('PORT'))
+    app.debug = True
+    serve(app, host='0.0.0.0', port=os.environ.get('PORT'))

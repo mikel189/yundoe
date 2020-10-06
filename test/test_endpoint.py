@@ -26,8 +26,6 @@ def access_api_with_auth():
     headers = { "authorization": "Bearer {}".format(access_token) }
 
     payload = '{"estate_id": "5f07154f8676eb0008153f14", "year": 2020}'
-    # print('this is the payload', payload)
-    # print(headers)
 
     response = requests.post(url, payload, headers = headers)
 

@@ -2,7 +2,9 @@ import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
 import os
+import time
 import json
+import schedule
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
@@ -18,12 +20,13 @@ from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 
+
 app = Flask(__name__)
 CORS(app)
 
-app.config['MONGO_DB'] = 'forecast-db'
-app.config['MONGODB_HOST'] = 'mongodb://127.0.0.1:27017/'
-app.config['MONGODB_CONNECT'] = False
+app.config['MONGODB_SETTINGS'] = {
+    "db": 'yundoe-db',
+}
 
 db = MongoEngine(app)
 
@@ -211,10 +214,10 @@ def private():
             'code': 'incorrect_user_input',
             'description': 'the user input of estate id is incorrect'
         }, 401)
-        print('this is estate id', estate_id)
+
         forecast = fetch_forecast_data(estate_id, year)
         return jsonify(forecast)
-
+    
 
 if __name__ == '__main__':
     app.debug = True

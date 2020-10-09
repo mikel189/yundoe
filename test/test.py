@@ -53,8 +53,12 @@ class FlaskTest(unittest.TestCase):
         headers = { "Content-Type": "application/json", "authorization": "Bearer {}".format(os.environ.get('ACCESS_TOKEN')) }
 
         tester = app.test_client(self)
-        response = tester.post('/api/private', data=payload, headers=headers)
+        response = tester.post('/api/prediction', data=payload, headers=headers)
+        print(response)
         self.assertEqual(int, type(response.json['year']))
+        self.assertEqual(dict, type(response.json['estateId']))
+        self.assertEqual(dict, type(response.json['date']))
+        self.assertEqual(float, type(response.json['amount']))
         self.assertEqual(200, response.status_code)
 
 

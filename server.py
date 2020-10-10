@@ -174,12 +174,6 @@ def requires_auth(f):
     return decorated
 
 
-# Controllers API
-@app.route('/')
-def hello():
-    return jsonify('hello world')
-    
-
 @app.route("/api/public")
 @cross_origin(headers=["Content-Type", "Authorization"])
 def public():
@@ -187,6 +181,19 @@ def public():
     """
     response = "Hello from a public endpoint! You don't need to be authenticated to see this."
     return jsonify(message=response)
+
+
+@app.route('/api/train_model', methods=['POST', 'GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
+@requires_auth
+def train_model():
+    from scripts.insert import process_and_save_raw_data, insert_predictions_to_db
+
+    process_and_save_raw_data()
+    insert_predictions_to_db()
+
+    return 'success'
 
 
 @app.route("/api/prediction", methods=['GET', 'POST'])
@@ -221,4 +228,4 @@ def private():
 
 if __name__ == '__main__':
     app.debug = True
-    serve(app, host='0.0.0.0', port=os.environ.get('PORT'))
+    serve(app, host='localhost', port=os.environ.get('PORT'))

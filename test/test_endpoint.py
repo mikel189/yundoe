@@ -21,7 +21,7 @@ def access_api_with_auth():
     token_dict = json.loads(get_access_token())
     access_token = token_dict['access_token']
 
-    url = "http://127.0.0.1:5000/api/prediction"
+    url = "http://localhost:9400/api/prediction"
 
     headers = { "authorization": "Bearer {}".format(access_token) }
 
@@ -31,5 +31,16 @@ def access_api_with_auth():
 
     print(response.text)
 
+def test_with_get():
+    token_dict = json.loads(get_access_token())
+    access_token = token_dict['access_token']
+
+    url = "http://localhost:9400/api/train"
+    headers = { "authorization": "Bearer {}".format(access_token) }
+
+    response = requests.get(url, headers = headers)
+    print(response.text)
+
 if __name__ == '__main__':
     access_api_with_auth()
+    # test_with_get()

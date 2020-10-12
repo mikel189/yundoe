@@ -37,11 +37,6 @@ AUTH0_DOMAIN = env.get("AUTH0_DOMAIN")
 API_IDENTIFIER = env.get("API_IDENTIFIER")
 ALGORITHMS = ["RS256"]
 
-def fetch_forecast(estate_id, year):
-    from api.models import Prediction
-
-    prediction = Prediction.objects.filter(estate_id = estate_id, year=year).order_by('-date')
-    return prediction
 
 # Format error response and append status code.
 class AuthError(Exception):
@@ -172,6 +167,13 @@ def requires_auth(f):
         raise AuthError({"code": "invalid_header",
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
+
+
+def fetch_forecast(estate_id, year):
+    from api.models import Prediction
+
+    prediction = Prediction.objects.filter(estate_id = estate_id, year=year).order_by('-date')
+    return prediction
 
 
 @app.route("/api/public")

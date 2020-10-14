@@ -22,8 +22,8 @@ def access_api_with_auth():
     access_token = token_dict['access_token']
 
     # url = "http://localhost:9400/api/prediction"
-    # url = 'http://0.0.0.0:9400/api/prediction'
-    url = 'https://yundoe.herokuapp.com/api/prediction'
+    url = 'http://0.0.0.0:9400/api/prediction'
+    # url = 'https://yundoe.herokuapp.com/api/prediction'
 
     headers = { "authorization": "Bearer {}".format(access_token) }
 

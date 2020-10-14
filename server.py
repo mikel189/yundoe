@@ -187,7 +187,7 @@ def public():
 
 @app.route('/api/train_model', methods=['POST', 'GET'])
 @cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:9400"])
+@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
 @requires_auth
 def train_model():
     from scripts.insert import process_and_save_raw_data, insert_predictions_to_db

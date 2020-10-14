@@ -15,10 +15,10 @@ from api.process_request import fetch_forecast_data
 from jose import jwt
 from waitress import serve
 from flask_cors import cross_origin, CORS
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
-from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
+from flask_mongoengine import MongoEngine
 
 
 app = Flask(__name__)

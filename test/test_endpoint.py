@@ -31,16 +31,16 @@ def access_api_with_auth():
 
     print(response.text)
 
-def test_with_get():
+def test_endpoint_with_get():
     token_dict = json.loads(get_access_token())
     access_token = token_dict['access_token']
 
-    url = "http://localhost:9400/api/train"
+    url = "http://localhost:9400/api/train_model"
     headers = { "authorization": "Bearer {}".format(access_token) }
 
     response = requests.get(url, headers = headers)
     print(response.text)
 
 if __name__ == '__main__':
+    test_endpoint_with_get()
     access_api_with_auth()
-    # test_with_get()

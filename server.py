@@ -24,15 +24,15 @@ from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 app = Flask(__name__)
 CORS(app)
 
-app.config['MONGODB_SETTINGS'] = {
-    "db": 'yundoe-db',
-}
-
-db = MongoEngine(app)
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
+
+app.config['MONGODB_HOST'] = env.get('MONGODB_URI')
+
+db = MongoEngine(app)
+
 AUTH0_DOMAIN = env.get("AUTH0_DOMAIN")
 API_IDENTIFIER = env.get("API_IDENTIFIER")
 ALGORITHMS = ["RS256"]
@@ -187,7 +187,7 @@ def public():
 
 @app.route('/api/train_model', methods=['POST', 'GET'])
 @cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
+@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:9400"])
 @requires_auth
 def train_model():
     from scripts.insert import process_and_save_raw_data, insert_predictions_to_db

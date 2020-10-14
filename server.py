@@ -4,7 +4,7 @@ sys.path.append('/home/ibrahim/assutech/Yundoo/')
 import os
 import time
 import json
-import schedule
+# import schedule
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
@@ -229,5 +229,6 @@ def private():
     
 
 if __name__ == '__main__':
-    app.debug = True
-    serve(app, host='localhost', port=os.environ.get('PORT'))
+    # app.debug = True
+    # serve(app, host='localhost', port=os.environ.get('PORT'))
+    app.run(debug=False)

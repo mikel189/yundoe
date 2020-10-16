@@ -1,5 +1,17 @@
 # yundoo
 
+
+# Requirements
+- [Pip](https://pip.pypa.io/en/stable/installing/)
+
+## Create a .env file in the root folder like so
+```
+    AUTH0_DOMAIN=
+    API_IDENTIFIER=
+    MONGODB_URI=""
+```    
+
+
 ## Scripts
 
 ```

@@ -4,7 +4,6 @@ sys.path.append('/home/ibrahim/assutech/Yundoo/')
 import os
 import time
 import json
-# import schedule
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
@@ -15,7 +14,6 @@ from api.process_request import fetch_forecast_data
 from jose import jwt
 from waitress import serve
 from flask_cors import cross_origin, CORS
-# from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
 from flask_mongoengine import MongoEngine
@@ -191,11 +189,13 @@ def public():
 @requires_auth
 def train_model():
     from scripts.insert import process_and_save_raw_data, insert_predictions_to_db
+    start_time = time.time()
 
     process_and_save_raw_data()
     insert_predictions_to_db()
-
-    return 'success'
+    end_time = time.time()
+    total_time = end_time - start_time
+    return f'success! Model successfully trained in {total_time}!'
 
 
 @app.route("/api/prediction", methods=['GET', 'POST'])
@@ -230,5 +230,5 @@ def private():
 
 if __name__ == '__main__':
     # app.debug = True
-    # serve(app, host='localhost', port=os.environ.get('PORT'))
-    app.run(debug=False)
+    serve(app, host='localhost', port=os.environ.get('PORT'))
+    # app.run(debug=False)

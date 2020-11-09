@@ -4,24 +4,23 @@ sys.path.append('/home/ibrahim/assutech/Yundoo/')
 import os
 import time
 import json
+import config
 from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
-import config
 
 from api.process_request import fetch_forecast_data
 
 from jose import jwt
 from waitress import serve
+from flask_mongoengine import MongoEngine
 from flask_cors import cross_origin, CORS
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, jsonify, _request_ctx_stack
-from flask_mongoengine import MongoEngine
 
 
 app = Flask(__name__)
 CORS(app)
-
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -34,7 +33,6 @@ db = MongoEngine(app)
 AUTH0_DOMAIN = env.get("AUTH0_DOMAIN")
 API_IDENTIFIER = env.get("API_IDENTIFIER")
 ALGORITHMS = ["RS256"]
-
 
 # Format error response and append status code.
 class AuthError(Exception):
@@ -195,7 +193,7 @@ def train_model():
     insert_predictions_to_db()
     end_time = time.time()
     total_time = end_time - start_time
-    return f'success! Model successfully trained in {total_time}!'
+    return f'success! Model successfully trained in {total_time} seconds'
 
 
 @app.route("/api/prediction", methods=['GET', 'POST'])

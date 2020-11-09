@@ -8,7 +8,7 @@
 ```
     AUTH0_DOMAIN=
     API_IDENTIFIER=
-    MONGODB_URI=""
+    MONGODB_PROD_URI=""
 ```    
 
 

@@ -207,6 +207,7 @@ def private():
     """A valid access token is required to access this route
     """
     if request.method == 'POST':
+        start_time = time.time()
 
         request_data = request.get_json(force=True)
 
@@ -226,6 +227,11 @@ def private():
         }, 401)
 
         forecast = fetch_forecast_data(estate_id, year)
+        
+        end_time = time.time()
+        total_time = end_time - start_time
+        print(f'predictions fetched in {total_time} seconds!')
+
         return jsonify(forecast)
     
 

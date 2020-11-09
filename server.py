@@ -187,13 +187,16 @@ def public():
 @requires_auth
 def train_model():
     from scripts.insert import process_and_save_raw_data, insert_predictions_to_db
-    start_time = time.time()
+    
+    if request.method == 'POST':
+        start_time = time.time()
 
-    process_and_save_raw_data()
-    insert_predictions_to_db()
-    end_time = time.time()
-    total_time = end_time - start_time
-    return f'success! Model successfully trained in {total_time} seconds'
+        process_and_save_raw_data()
+        insert_predictions_to_db()
+        end_time = time.time()
+
+        total_time = end_time - start_time
+        return f'success! Model successfully trained in {total_time} seconds'
 
 
 @app.route("/api/prediction", methods=['GET', 'POST'])

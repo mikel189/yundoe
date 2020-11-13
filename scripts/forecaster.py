@@ -10,9 +10,12 @@ def build_model():
     df = preprocess_data()
     model = Prophet(
         growth='linear', 
-        seasonality_mode = 'multiplicative', 
-        weekly_seasonality=True, 
-        daily_seasonality=True,
+        seasonality_mode='multiplicative', 
+        changepoint_prior_scale=1,
+        seasonality_prior_scale=15,
+
+        weekly_seasonality=False, 
+        daily_seasonality=False,
     )
     model.fit(df)
     future = model.make_future_dataframe(periods = 1, freq='M')

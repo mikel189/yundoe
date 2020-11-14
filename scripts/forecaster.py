@@ -11,11 +11,18 @@ def build_model():
     model = Prophet(
         growth='linear', 
         seasonality_mode='multiplicative', 
-        changepoint_prior_scale=1,
         seasonality_prior_scale=15,
 
         weekly_seasonality=False, 
         daily_seasonality=False,
+    ).add_seasonality(
+        name='daily',
+        period=1,
+        fourier_order=15
+    ).add_seasonality(
+        name='monthly', 
+        period=30.5,
+        fourier_order=20
     )
     model.fit(df)
     future = model.make_future_dataframe(periods = 1, freq='M')

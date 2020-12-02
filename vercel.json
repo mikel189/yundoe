@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "name": "yundoe",
+    "builds": [
+        {
+            "src": "*.py", "use": "@now/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/public", "dest": "/index.py"
+        },
+        {
+            "src": "/api/train_model", "dest": "/index.py"
+        },
+        {
+            "src": "/api/prediction", "dest": "/index.py"
+        }
+    ]
+}

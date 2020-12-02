@@ -2,7 +2,7 @@ import sys
 sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
 from fbprophet import Prophet
-from scripts.sanitize import preprocess_data
+from ml_modules.sanitize import preprocess_data
 # from api.models import RawForecastData
 
 

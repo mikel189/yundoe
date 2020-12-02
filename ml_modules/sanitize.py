@@ -8,7 +8,7 @@ from os import environ as env
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 
-from api.models import RawForecastData
+from api_modules.models import RawForecastData
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:

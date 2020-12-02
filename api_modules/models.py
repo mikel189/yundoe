@@ -4,7 +4,7 @@ sys.path.append('/home/ibrahim/assutech/Yundoo/')
 
 from mongoengine import *
 from datetime import datetime
-from server import db
+from index import db
 
 
 class Prediction(db.Document):

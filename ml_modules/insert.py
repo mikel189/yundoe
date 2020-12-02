@@ -4,9 +4,9 @@ sys.path.append('/home/ibrahim/assutech/Yundoo/')
 import json
 from datetime import datetime
 
-from scripts.sanitize import connect_to_db, get_estates, process_and_save_raw_data
-from scripts.forecaster import get_train_model
-from api.models import Prediction
+from ml_modules.sanitize import connect_to_db, get_estates, process_and_save_raw_data
+from ml_modules.forecaster import get_train_model
+from api_modules.models import Prediction
 
 
 def get_forecast_collection():

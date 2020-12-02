@@ -9,7 +9,7 @@ from functools import wraps
 from os import environ as env
 from six.moves.urllib.request import urlopen
 
-from api.process_request import fetch_forecast_data
+from api_modules.process_request import fetch_forecast_data
 
 from jose import jwt
 from waitress import serve
@@ -166,7 +166,7 @@ def requires_auth(f):
 
 
 def fetch_forecast(estate_id, year):
-    from api.models import Prediction
+    from api_modules.models import Prediction
 
     prediction = Prediction.objects.filter(estate_id = estate_id, year=year).order_by('-date')
     return prediction
@@ -186,7 +186,7 @@ def public():
 @cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:5000"])
 @requires_auth
 def train_model():
-    from scripts.insert import process_and_save_raw_data, insert_predictions_to_db
+    from ml_modules.insert import process_and_save_raw_data, insert_predictions_to_db
     
     if request.method == 'POST':
         start_time = time.time()

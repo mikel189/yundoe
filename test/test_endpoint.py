@@ -1,11 +1,22 @@
 import http.client
 import json
 import requests
+from os import environ as env
+from dotenv import load_dotenv, find_dotenv
+
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+AUTH0_DOMAIN = env.get('AUTH0_DOMAIN')
+PAYLOAD = env.get('PAYLOAD')
+
 
 def get_access_token():
-    conn = http.client.HTTPSConnection("dev-1nkx3tfz.us.auth0.com")
+    conn = http.client.HTTPSConnection(AUTH0_DOMAIN)
 
-    payload = "{\"client_id\":\"Bh5rk9gYU7ubSp1eeX7mAGVDHy8UDjQ0\",\"client_secret\":\"0mpzhJp3OgI0dBfP61cKpIXFK2KgH6bqckf2dLpM64TMEwuCvHe6y60k8VE5wVnc\",\"audience\":\"yundoe\",\"grant_type\":\"client_credentials\"}"
+    payload = PAYLOAD
 
     headers = { 'content-type': "application/json" }
 

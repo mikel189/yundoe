@@ -1,9 +1,10 @@
-/.ipynb_checkpoints/
-/env
-/data
+.ipynb_checkpoints
+env
+data
 .env
-/__pycache__
-/notebooks
-/.vscode
+__pycache__
+notebooks
+.vscode
 test
 .pyc
+.vercel

@@ -2,8 +2,7 @@
 /env
 /data
 .env
-**/__pycache__/
+/__pycache__
 /notebooks/
 /.vscode
 test
-

@@ -193,10 +193,11 @@ def train_model():
 
         process_and_save_raw_data()
         insert_predictions_to_db()
-        end_time = time.time()
 
+        end_time = time.time()
         total_time = end_time - start_time
-        return f'success! Model successfully trained in {total_time} seconds'
+
+        return f"success! Model successfully trained in {total_time} seconds"
 
 
 @app.route("/api/prediction", methods=['GET', 'POST'])
@@ -233,9 +234,7 @@ def private():
         print(f'predictions fetched in {total_time} seconds!')
 
         return jsonify(forecast)
-    
+
 
 if __name__ == '__main__':
-    # app.debug = True
-    serve(app, host='localhost', port=os.environ.get('PORT'))
-    # app.run(debug=False)
+    serve(app, port=os.environ.get('PORT'))

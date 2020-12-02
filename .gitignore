@@ -3,6 +3,7 @@
 /data
 .env
 /__pycache__
-/notebooks/
+/notebooks
 /.vscode
 test
+.pyc

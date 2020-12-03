@@ -208,8 +208,8 @@ def private():
     """A valid access token is required to access this route
     """
     if request.method == 'POST':
-        start_time = time.time()
 
+        start_time = time.time()
         request_data = request.get_json(force=True)
 
         year = request_data['year']

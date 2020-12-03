@@ -32,8 +32,8 @@ def access_api_with_auth():
     token_dict = json.loads(get_access_token())
     access_token = token_dict['access_token']
 
-    url = "http://localhost:9500/api/prediction"
-    # url = 'https://yundoe.herokuapp.com/api/prediction'
+    # url = "http://localhost:9500/api/prediction"
+    url = 'https://yundoe.vercel.app/api/prediction'
 
     headers = { "authorization": "Bearer {}".format(access_token) }
 
@@ -47,8 +47,8 @@ def test_endpoint_with_post():
     token_dict = json.loads(get_access_token())
     access_token = token_dict['access_token']
 
-    url = "http://localhost:9500/api/train_model"
-    # url = 'https://yundoe.herokuapp.com/api/train_model'
+    # url = "http://localhost:9500/api/train_model"
+    url = 'https://yundoe.vercel.app/api/train_model'
 
     headers = { "authorization": "Bearer {}".format(access_token) }
 

@@ -12,7 +12,6 @@ def build_model():
         growth='linear', 
         seasonality_mode='multiplicative', 
         seasonality_prior_scale=15,
-
         weekly_seasonality=False, 
         daily_seasonality=False,
     ).add_seasonality(

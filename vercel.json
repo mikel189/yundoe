@@ -3,7 +3,7 @@
     "name": "yundoe",
     "builds": [
         {
-            "src": "*.py", "use": "@now/python"
+            "src": "index.py", "use": "@now/python"
         }
     ],
     "routes": [
